@@ -1,14 +1,23 @@
-version: '3'
+version: "3"
+
 services:
-    database:
-        image: 'mongo'
-        container_name: 'social-web-db' # container name
-        environment:
-            - MONGO_INITDB_DATABASE=social-web-db # db name
-            - MONGO_INITDB_ROOT_USERNAME=social-web # container root user
-            - MONGO_INITDB_ROOT_PASSWORD=password # container root pw
-        volumes:
-            - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-            - ./mongo-volume:/data/db
-        ports:
-            - '27017-27019:27017-27019'
+
+  db:
+    image: mongo:3.6.3
+    ports:
+      - "27017:27017"
+    restart: always
+
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    links:
+      - db
+    environment:
+      - MONGO_HOST=db
+      - MONGO_PORT=27017
+      - MONGO_DATABASE_NAME=demodb
+    command: node /app/server.js
