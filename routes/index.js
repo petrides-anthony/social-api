@@ -1,13 +1,7 @@
 var express = require("express");
-var mongojs = require('mongojs');
-var config = require('../config');
+var mongoClient = require("../mongo-client");
 
-var connStr = 'mongodb://' + config.mongo_host;
-connStr += ':' + config.mongo_port;
-connStr += '/' + config.mongo_database;
-
-var db = mongojs(connStr, ['students']);
-var usersCollection = db.collection('users');
+var usersCollection = mongoClient.collection('users');
 
 var router = express.Router();
 
