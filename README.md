@@ -1,10 +1,5 @@
 # social-web
 
-# node-express-mongo-docker boilerplate
-
-### src: 
-- http://blog.medhat.ca/2018/03/dockerizing-node-express-api-app-with.html?m=1
-
 ## Run
 To run the stack, which consists of the express server and mongo database, run the following: 
 
@@ -40,3 +35,7 @@ The above code sets up the following API endpoints:
 - `http://localhost:3000/` - Displays all documents in the users collection. If the users collection is empty then it will be seeded with three documents.
 - `http://localhost:3000/add` - Adds a user document with a randomly generated name and email
 - `http://localhost:3000/users/:id` - Displays a single document by MongoDB object id
+
+
+References:
+- _node, express, mongo, docker article: http://blog.medhat.ca/2018/03/dockerizing-node-express-api-app-with.html?m=1_
