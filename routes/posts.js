@@ -21,6 +21,9 @@ router.post('/', (req, res) => {
 
     // TODO: add new post to the db
 
+    // create the post
+    // add the post to the db
+
     res.json({ user, content });
 });
 
