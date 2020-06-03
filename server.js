@@ -1,17 +1,15 @@
-var express = require('express');
-var bodyParser = require('body-parser');
+const express = require('express');
+const bodyParser = require('body-parser');
+const posts = require('./routes/posts');
+const config = require('./config');
+const errorHandler = require('./error-handler');
 
-var users = require('./routes/');
-var posts = require('./routes/posts');
-var config = require('./config');
-var errorHandler = require('./error-handler');
-
-var app = express();
+require('./mongo-client');
+const app = express();
 
 // parse application/json
 app.use(bodyParser.json());
 
-app.use('/', users);
 app.use('/posts', posts);
 
 app.use(errorHandler);

@@ -5,7 +5,7 @@ const postSchema = new Schema({
   parentId: mongoose.ObjectId,
   user:  String, // String is shorthand for {type: String}
   content: String,
-  likes:   Number,
+  likes: { type: Number, default: 0 },
   timestamp: { type: Date, default: Date.now },
   lastComment: {
     user: String,
@@ -13,6 +13,7 @@ const postSchema = new Schema({
   }
 });
 
+module.exports = mongoose.model('Post', postSchema);
 
 // Continue with creating the model and reading up about it from:
 // https://mongoosejs.com/docs/guide.html

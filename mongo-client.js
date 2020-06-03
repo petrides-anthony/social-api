@@ -1,8 +1,11 @@
-var mongojs = require('mongojs');
-var config = require('./config');
+const mongoose = require('mongoose');
 
-var connStr = 'mongodb://' + config.mongo_host;
-connStr += ':' + config.mongo_port;
-connStr += '/' + config.mongo_database;
+const {
+  mongo_host,
+  mongo_port,
+  mongo_database,
+} = require('./config');
 
-module.exports = mongojs(connStr, ['students']);
+const connStr = `mongodb://${mongo_host}:${mongo_port}/${mongo_database}`;
+
+mongoose.connect(connStr, {useNewUrlParser: true});
