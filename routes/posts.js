@@ -5,14 +5,12 @@ const PostModel = require("../models/post");
 
 const router = express.Router();
 
+// GET /
+// get all posts
 router.get('/', async (req, res, next) => {
   const allPosts = await PostModel.find();
   res.json(allPosts);
   next();
-});
-
-router.get('/:id', (req, res) => {
-  res.json({ text: `post id = ${req.params.id}` });
 });
 
 // POST /
@@ -38,5 +36,16 @@ router.post('/', async (req, res, next) => {
 
   next();
 });
+
+// GET /:id
+// get a post by its id
+router.get('/:id', (req, res) => {
+  res.json({ text: `post id = ${req.params.id}` });
+});
+
+
+// Run the above get posts/id and retrieve the json with that id using Mongooses findById method per below
+// Return the object, or 404 from express
+// https://mongoosejs.com/docs/api.html#model_Model.findById
 
 module.exports = router;

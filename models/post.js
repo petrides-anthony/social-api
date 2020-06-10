@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
+  // _id
   parentId: mongoose.ObjectId,
   user:  String, // String is shorthand for {type: String}
   content: String,
