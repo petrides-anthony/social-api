@@ -1,6 +1,6 @@
 const express = require("express");
 const assert = require('assert');
-const { BadRequest } = require("http-errors");
+const { BadRequest, NotFound } = require("http-errors");
 const PostModel = require("../models/post");
 
 const router = express.Router();
@@ -39,11 +39,35 @@ router.post('/', async (req, res, next) => {
 
 // GET /:id
 // get a post by its id
-router.get('/:id', (req, res) => {
-  res.json({ text: `post id = ${req.params.id}` });
+router.get('/:id', async (req, res, next) => {
+  try {
+    assert.ok(req.params.id.length === 24, new BadRequest('Invalid ObjectId'));
+
+    const post = await PostModel.findById(req.params.id);
+    if (post === null) {
+      throw new NotFound(`Post not found for id '${req.params.id}'`);
+    }
+
+    res.json(post);
+  } catch (error) {
+    console.log('my error: ', error.name);
+    if (error.name === 'CastError') {
+      return next(new BadRequest('Invalid ObjectId'));
+    }
+
+    next(error);
+  }
 });
 
-
+/*
+TRY
+  |
+  |
+  | findById
+  |
+CATCH
+  |
+*/
 // Run the above get posts/id and retrieve the json with that id using Mongooses findById method per below
 // Return the object, or 404 from express
 // https://mongoosejs.com/docs/api.html#model_Model.findById
