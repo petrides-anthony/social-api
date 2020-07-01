@@ -76,15 +76,19 @@ router.get('/:id', async (req, res, next) => {
 // Add a comment
 
 router.post('/:id/comment', async (req, res, next) => {
-  const { user, content, parentId } = req.body || {};
+  const { user, content } = req.body || {};
 
   try {
     assert.ok(user !== undefined, new BadRequest('`user` is missing'));
     assert.ok(typeof user === 'string', new BadRequest('`user` needs to be of type string'));
     assert.ok(content !== undefined, new BadRequest('`content` is missing'));
     assert.ok(typeof content === 'string', new BadRequest('`content` needs to be of type string'));
-    assert.ok(parentId !== undefined, new BadRequest('`parentId` is missing'));
-    assert.ok(typeof parentId === 'string', new BadRequest('`parentId` needs to be of type string'));
+    assert.ok(req.params.id.length === 24, new BadRequest(`'${req.params.id}' parentId is not a valid objectId`));
+
+    const doesParentPostExist = Boolean(await PostModel.findById(req.params.id));
+    if (!doesParentPostExist) {
+      throw new NotFound(`Cannot find parent post. Post with id '${req.params.id}' not found.`);
+    }
 
     // create the post object
     const post = new PostModel({
@@ -108,3 +112,10 @@ router.post('/:id/comment', async (req, res, next) => {
 });
 
 module.exports = router;
+
+// *** To Do's ***
+// - Update Get Posts to only get posts where parentId is null [ ]
+// - Add a Get Comments function [ ]
+// - Update Add Comments function to only add comment if req.param.id exists for a post [x]
+// - Update Add Comments function so that it updates the parent post's 'lastestComment' attribute [ ]
+
