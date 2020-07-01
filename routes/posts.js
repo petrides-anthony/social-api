@@ -125,7 +125,7 @@ router.post('/:id/comment', async (req, res, next) => {
 module.exports = router;
 
 // *** To Do's ***
-// - Update Get Posts to only get posts where parentId is null [ ]
+// - Update Get Posts to only get posts where parentId is null [ x ]
 // - Add a Get Comments function [ ]
 // - Update Add Comments function to only add comment if req.param.id exists for a post [x]
 // - Update Add Comments function so that it updates the parent post's 'lastestComment' attribute [x]
