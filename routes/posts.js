@@ -10,8 +10,8 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    const allPosts = await PostModel.find();
-    res.json(allPosts);
+    const allRootPosts = await PostModel.find({ parentId: null });
+    res.json(allRootPosts);
     next();
   } catch (error) {
     console.log('Error from GET all posts ->', error)
@@ -85,23 +85,34 @@ router.post('/:id/comment', async (req, res, next) => {
     assert.ok(typeof content === 'string', new BadRequest('`content` needs to be of type string'));
     assert.ok(req.params.id.length === 24, new BadRequest(`'${req.params.id}' parentId is not a valid objectId`));
 
-    const doesParentPostExist = Boolean(await PostModel.findById(req.params.id));
-    if (!doesParentPostExist) {
+    // Grab parent post
+    const parentPost = await PostModel.findById(req.params.id);
+
+    // Check if parentPost exists before adding comment
+    if (!Boolean(parentPost)) {
       throw new NotFound(`Cannot find parent post. Post with id '${req.params.id}' not found.`);
     }
 
     // create the post object
-    const post = new PostModel({
+    const comment = new PostModel({
       user: user,
       content: content,
       parentId: req.params.id
     });
 
     // saved in the db
-    const savedPost = await post.save();
+    const savedComment = await comment.save();
+
+    // add lastComment to parent post
+    parentPost.lastComment = {
+      user,
+      content
+    };
+
+    await parentPost.save();
   
     // return saved data from the db to the client
-    res.json(savedPost);
+    res.json(savedComment);
 
     next();
   } catch (error) {
@@ -117,5 +128,5 @@ module.exports = router;
 // - Update Get Posts to only get posts where parentId is null [ ]
 // - Add a Get Comments function [ ]
 // - Update Add Comments function to only add comment if req.param.id exists for a post [x]
-// - Update Add Comments function so that it updates the parent post's 'lastestComment' attribute [ ]
+// - Update Add Comments function so that it updates the parent post's 'lastestComment' attribute [x]
 
