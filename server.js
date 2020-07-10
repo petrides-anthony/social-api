@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const posts = require('./routes/posts');
+const posts = require('./routes/posts/index');
 const config = require('./config');
 const errorHandler = require('./error-handler');
 
