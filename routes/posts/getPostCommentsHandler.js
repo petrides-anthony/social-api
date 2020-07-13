@@ -2,9 +2,12 @@ const assert = require('assert');
 const { BadRequest, NotFound } = require("http-errors");
 const PostModel = require("../../models/post");
 
-const getAllPostsHandler = async (req, res, next) => {
+const getPostCommentsHandler = async (req, res, next) => {
   try {
-    const allRootPosts = await PostModel.find({ parentId: null });
+    
+    assert.ok(req.params.id.length === 24, new BadRequest('Invalid ObjectId'));
+
+    const allRootPosts = await PostModel.find({ parentId: req.params.id });
     res.json(allRootPosts);
     next();
   } catch (error) {
@@ -13,4 +16,4 @@ const getAllPostsHandler = async (req, res, next) => {
   }
 };
 
-module.exports = getAllPostsHandler;
+module.exports = getPostCommentsHandler;
