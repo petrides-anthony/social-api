@@ -1,4 +1,4 @@
-# social-web
+# social-api
 
 ## Run
 To run the stack, which consists of the express server and mongo database, run the following: 

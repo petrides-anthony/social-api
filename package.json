@@ -1,8 +1,8 @@
 {
-  "name": "social-web",
+  "name": "social-api",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/petrides-anthony/social-web.git",
+  "repository": "https://github.com/petrides-anthony/social-api.git",
   "author": "Anthony Petrides <Anthony.Petrides@thetrainline.com>",
   "license": "MIT",
   "scripts": {
