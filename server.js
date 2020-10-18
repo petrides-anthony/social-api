@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const posts = require('./routes/posts/index');
 const config = require('./config');
@@ -6,6 +7,8 @@ const errorHandler = require('./error-handler');
 
 require('./mongo-client');
 const app = express();
+
+app.use(cors());
 
 // parse application/json
 app.use(bodyParser.json());
